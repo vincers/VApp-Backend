@@ -1,0 +1,5 @@
+//npm i body-parser
+//npm i nodemon
+//npm install dotenv --save
+//npm install ckey
+//npm install password-hash
