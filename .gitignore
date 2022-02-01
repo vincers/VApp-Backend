@@ -1,2 +1,2 @@
 *.env
-API/data/Login.js
+/API/data/Login.js
