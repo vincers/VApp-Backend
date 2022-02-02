@@ -1,4 +1,6 @@
+/********** VApp Project - Backend **********
 
+*/
 const express = require('express');
 const cors = require('cors');
 const db = require("./db-connection.js");
@@ -12,7 +14,7 @@ app.use(express.json());
 global.db_connection = db.connect();
 db.selectbd();
 
-
+//starting server on port: 3333
 app.listen(3333, () =>{
     console.log("Server started: port 3333");
 });

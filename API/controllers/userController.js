@@ -1,26 +1,16 @@
-exports.post = (req, res, next) => {
-   var a = req.body;
-   console.log(a);
-   res.status(201).send('Rota POST!');
-  
-};
+const user_util = require("../data/User.js");
 
-exports.put = (req, res, next) => {
-   let id = req.params.id;
-   res.status(201).send(`Rota PUT com ID! --> ${id}`);
-};
-
-exports.delete = (req, res, next) => {
-   let id = req.params.id;
-   res.status(200).send(`Rota DELETE com ID! --> ${id}`);
-};
-
-exports.get = (req, res, next) => {
-   res.status(200).send('Rota GET!');
-};
-
-exports.getById = (req, res, next) => {
-   let id = req.params.id;
-   res.status(200).send(`Rota GET com ID! ${id}`);
+exports.getUser = (req, res) => {
+   const id = req.params.id;
+   data = user_util.getById(id);
+   if(data){
+      res.status(404);
+      const data = {"message": "User not found"};
+      res.json(data);
+   }
+   else{
+      res.status(200);
+      res.json(data);
+   }
 };
 

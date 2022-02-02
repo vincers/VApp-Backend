@@ -1,6 +1,6 @@
 const env_vars = require('dotenv').config();
 
-
+//Make a connection with db 
 exports.connect = () => {
     const mysql = require("mysql2");
     const con =  mysql.createConnection({
@@ -18,6 +18,7 @@ exports.connect = () => {
     return con;
   };
 
+//Select database 
 exports.selectbd = () =>{
   const con = global.db_connection;
   con.query("USE "+env_vars.parsed.DB_NAME, function (err, result) {
