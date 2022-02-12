@@ -4,7 +4,7 @@ const datas = require("../data/data.json");
 /********* GET *********/
 exports.getClient = (req, res) => {
    const id = req.params.id;
-   user_util.getById_Type(id,2,function(err,result){
+   user_util.getById_Type(id,"client",function(err,result){ //// ver o nome no banco
     if(err){
        res.status(404);
        res.json(err);
@@ -18,7 +18,7 @@ exports.getClient = (req, res) => {
 
 exports.getTypeClient = (req, res) => {
     const id = req.params.id;
-    const sql = "select user_type from "+datas.user_type[2]+"where user_id = '"+id+"'";
+    const sql = "select user_type from User_Client where user_id = '"+id+"'";
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -29,8 +29,7 @@ exports.getTypeClient = (req, res) => {
         }
         else{
             res.status(200);
-            const data = {"type": datas.client_type[result[0].type - 1],
-                          "type_index": result[0].type };//0 or 1 ?? 1 or 2??
+            const data = {"type": result[0].type };
             res.json(data);
         }
     });
@@ -53,7 +52,7 @@ exports.getTypeClient = (req, res) => {
 
  exports.getArtsOngoing = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where user_id = '"+id+"' and status != '"+datas.art_status[4]+"'"; //completed
+    const sql = "select art_id from Art where client_id = '"+id+"' and status != '"+datas.art_status["complete"]+"'"; //completed
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -71,7 +70,7 @@ exports.getTypeClient = (req, res) => {
 
  exports.getArtsNew = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where user_id = '"+id+"' and status = '"+datas.art_status[0]+"'"; //new
+    const sql = "select art_id from Art where client_id = '"+id+"' and status = '"+datas.art_status["new"]+"'"; //new
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -89,7 +88,7 @@ exports.getTypeClient = (req, res) => {
 
  exports.getArtsWaiting = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where user_id = '"+id+"' and status = '"+datas.art_status[1]+"'"; //waiting
+    const sql = "select art_id from Art where client_id = '"+id+"' and status = '"+datas.art_status["wait"]+"'"; //waiting
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -107,7 +106,7 @@ exports.getTypeClient = (req, res) => {
 
  exports.getArtsCreating = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where user_id = '"+id+"' and status = '"+datas.art_status[2]+"'"; //creating
+    const sql = "select art_id from Art where client_id = '"+id+"' and status = '"+datas.art_status["create"]+"'"; //creating
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -125,7 +124,7 @@ exports.getTypeClient = (req, res) => {
 
  exports.getArtsRevision = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where user_id = '"+id+"' and status = '"+datas.art_status[3]+"'"; //revision
+    const sql = "select art_id from Art where client_id = '"+id+"' and status = '"+datas.art_status["revision"]+"'"; //revision
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -143,7 +142,7 @@ exports.getTypeClient = (req, res) => {
 
  exports.getArtsCompleted = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where user_id = '"+id+"' and status = '"+datas.art_status[4]+"'"; //completed
+    const sql = "select art_id from Art where client_id = '"+id+"' and status = '"+datas.art_status["complete"]+"'"; //completed
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -159,48 +158,16 @@ exports.getTypeClient = (req, res) => {
     });
  };
 
- exports.getMoodboard = (req, res) => {
-    const id = req.params.id;
-    const sql = "select * from Moodboard where user_id = '"+id+"'"; //completed
-    global.db_connection.query(sql, function (err, result) {
-        if (err) throw err;
-        
-        if(result.length != 1){
-            res.status(201);
-            const data = {"message": "Not found Moodboard"};
-            res.json(data);
-        }
-        else{
-            res.status(200);
-            res.json(result[0]);
-        }
-    });
- };
 
 /********* PUT *********/
  exports.putBalance = (req, res) => {
     const id = req.body.id;
     const new_balance = req.body.general_balance;
-    const sql = "update "+datas.user_type[2]+" set general_balance = "+new_balance+" where user_id = '"+id+"'";
+    const sql = "update User_Client set general_balance = "+new_balance+" where user_id = '"+id+"'";
     global.db_connection.query(sql, function (err, result) {
         if (err) {throw err}
         else{
             res.status(200).send("Balance updated successfully!");
-        }
-    });
-
- };
-
- exports.putMoodboard = (req, res) => {
-    const id = req.body.id;
-    const new_color = req.body.color;
-    const new_font = req.body.font;
-    const new_images = req.body.images;
-    const sql = "update "+datas.user_type[2]+" set color = '"+new_color+"', font = '"+new_font+"', images = '"+new_images+"' where user_id = '"+id+"'";
-    global.db_connection.query(sql, function (err, result) {
-        if (err) {throw err}
-        else{
-            res.status(200).send("Moodboard updated successfully!");
         }
     });
 

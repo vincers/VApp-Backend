@@ -1,13 +1,29 @@
 {
-    "user_type": [
-        "User_Admin",
-        "User_Creator",
-        "User_Client_Master"
+    "user_type_tables": {
+        "admin": "User_Admin",
+        "creator":"User_Creator",
+        "client":"User_Client_Master"
+    },
+    "user_types": {
+        "admin": "Admin",
+        "creator":"Creator",
+        "client_master":"Client Master",
+        "client_worker":"Client Worker"
+    },
+    "user_index":[
+        "admin",
+        "creator",
+        "client"
     ],
-    "client_type": [
-        "Client Worker",
-        "Client Master"
-    ],
+
+    "art_status":{
+        "new":"Rascunho", 
+        "wait":"Aguardando",
+        "create":"Criando",
+        "revision":"Revisão",
+        "complete":"Completa"
+    },
+
     "art_type": [
         {
             "name": "video",
@@ -128,12 +144,5 @@
                 }
             ]
         }
-    ],
-    "art_status":[
-        "New Art", 
-        "Waiting",
-        "Creating",
-        "Revision",
-        "Completed"
     ]
 }

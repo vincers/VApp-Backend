@@ -1,7 +1,7 @@
 const datas = require("../data/data.json");
 
 module.exports = {
-    getById_Type: function(id, type_index,callback){
+    getById_Type: function(id, type,callback){
         /****** Find User by ID and Type  ******
          * 
          ** params: id, 
@@ -9,7 +9,7 @@ module.exports = {
          ** return: null or <user data>
          * 
         */
-        const sql = "select * from "+datas.user_type[type_index]+" where user_id = "+id+"";
+        const sql = "select * from "+datas.user_type_tables[type]+" where user_id = "+id+"";
         global.db_connection.query(sql, function (err, result) {
             if (err) throw err;
             
@@ -28,17 +28,14 @@ module.exports = {
          ** return: user or null
          * 
         */
-        let sql = "select * from "+datas.user_type[0]+" where user_id = "+id;
+        let sql = "select * from User_Admin where user_id = "+id;
          global.db_connection.query(sql, function (err, sql_result) {
-            if (err) {console.log("1")};
             if(sql_result.length != 1){
-                let sql = "select * from "+datas.user_type[1]+" where user_id = "+id;
+                let sql = "select * from User_Creator where user_id = "+id;
                 global.db_connection.query(sql, function (err, sql_result) {
-                    if (err) {console.log("2")};
                     if(sql_result.length != 1){
-                        let sql = "select * from "+datas.user_type[2]+" where user_id = "+id;
+                        let sql = "select * from User_Client where user_id = "+id;
                         global.db_connection.query(sql, function (err, sql_result) {
-                            if (err) {console.log("3")};
                             if(sql_result.length != 1){
                                 callback(err, null);
                             }
