@@ -3,7 +3,7 @@ const datas = require("../data/data.json");
 
 /********* GET *********/
 exports.getClient = (req, res) => {
-   const id = req.params.id;
+   const id = req.body.id;
    user_util.getById_Type(id,"client",function(err,result){ //// ver o nome no banco
     if(err){
        res.status(404);
@@ -17,8 +17,8 @@ exports.getClient = (req, res) => {
 };
 
 exports.getTypeClient = (req, res) => {
-    const id = req.params.id;
-    const sql = "select user_type from User_Client where user_id = '"+id+"'";
+    const id = req.body.id;
+    const sql = "select master_id from User_Client where user_id = "+id;
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -28,9 +28,16 @@ exports.getTypeClient = (req, res) => {
             res.json(data);
         }
         else{
-            res.status(200);
-            const data = {"type": result[0].type };
-            res.json(data);
+            if (!result[0].master_id){
+                const data = {"type": "master"};
+                res.status(200);
+                res.json(data);
+            }
+            else{
+                const data = {"type": "worker" };
+                res.status(200);
+                res.json(data);
+            }
         }
     });
  };

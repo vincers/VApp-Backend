@@ -2,7 +2,7 @@
     "user_type_tables": {
         "admin": "User_Admin",
         "creator":"User_Creator",
-        "client":"User_Client_Master"
+        "client":"User_Client"
     },
     "user_types": {
         "admin": "Admin",
@@ -20,8 +20,8 @@
         "new":"Rascunho", 
         "wait":"Aguardando",
         "create":"Criando",
-        "revision":"Revisão",
-        "complete":"Completa"
+        "revision":"Em Revisão",
+        "complete":"Enviado"
     },
 
     "art_type": [

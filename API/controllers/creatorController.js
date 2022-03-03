@@ -34,7 +34,7 @@ exports.getCreator = (req, res) => {
 
  exports.getArtsOngoing = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where creator_id = '"+id+"' and (status = '"+datas.art_status["new"]+"' or status = '"+datas.art_status["wait"]+"' or status = '"+datas.art_status["create"]+"')"; 
+    const sql = "select art_id from Art where creator_id = '"+id+"' && (status = '"+datas.art_status["new"]+"' or status = '"+datas.art_status["wait"]+"' or status = '"+datas.art_status["create"]+" ') ORDER BY UNIX_TIMESTAMP(request_time) DESC "; 
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -53,7 +53,7 @@ exports.getCreator = (req, res) => {
 
  exports.getArtsCreating = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where creator_id = '"+id+"' and status = '"+datas.art_status["create"]+"'"; 
+    const sql = "select art_id from Art where creator_id = '"+id+"' && status = '"+datas.art_status["create"]+"' ORDER BY UNIX_TIMESTAMP(request_time) ASC"; 
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -71,7 +71,7 @@ exports.getCreator = (req, res) => {
 
  exports.getArtsRevision = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where creator_id = '"+id+"' and status = '"+datas.art_status["revision"]+"'"; 
+    const sql = "select art_id from Art where creator_id = '"+id+"' && status = '"+datas.art_status["revision"]+"' ORDER BY UNIX_TIMESTAMP(request_time) ASC"; 
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -89,7 +89,7 @@ exports.getCreator = (req, res) => {
 
  exports.getArtsCompleted = (req, res) => {
     const id = req.params.id;
-    const sql = "select art_id from Art where creator_id = '"+id+"' and status = '"+datas.art_status["complete"]+"'"; 
+    const sql = "select art_id from Art where creator_id = '"+id+"' && status = '"+datas.art_status["complete"]+"' ORDER BY UNIX_TIMESTAMP(request_time) DESC"; 
     global.db_connection.query(sql, function (err, result) {
         if (err) throw err;
         
@@ -121,4 +121,24 @@ exports.getCreator = (req, res) => {
 
  };
 
- 
+exports.putArt = (req, res) => {
+    const id = req.params.id;
+    const final_file = req.params.final_file;
+    const date = Date.now();
+    const sql = "update  Art set  final_file = '"+final_file+"', delivery_time = "+data+" where art_id = "+id; 
+
+    global.db_connection.query(sql, function (err, result) {
+        if (err) throw err;
+        
+        if(result.length != 1){
+            res.status(201);
+            const data = {"message": "Not found Arts"};
+            res.json(data);
+        }
+        else{
+            res.status(200);
+            res.json({"message": "Deu certo!"});
+        }
+    });
+
+ };

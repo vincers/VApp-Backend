@@ -79,26 +79,28 @@ exports.login = (req, res) => {
                     if (err){
                         console.log(err);
                     }
-                    const id = result[0].id;
-                    user_util.insertUser(id, email, req,function(err){
-                        if(err){
-                            const data = { "message:":"Error."}
-                            const sql = "delete from Login where email = '"+email+"';";
-                            global.db_connection.query(sql, function (err) {
-                                if (err){
-                                    console.log(err);
-                                }
-                            });
-                            res.status(404);
-                            res.json(data); 
+                    else{
+                        const id = result[0].id;
+                        user_util.insertUser(id, email, req,function(err){
+                            if(err){
+                                const data = { "message:":"Error."}
+                                const sql = "delete from Login where email = '"+email+"';";
+                                global.db_connection.query(sql, function (err) {
+                                    if (err){
+                                        console.log(err);
+                                    }
+                                });
+                                res.status(404);
+                                res.json(data); 
+                            }
+                            else{
+                                const data = { "message:":"Sign Up successful."}
+                                res.status(200);
+                                res.json(data);
+                            }
                         }
-                        else{
-                            const data = { "message:":"Sign Up successful."}
-                            res.status(200);
-                            res.json(data);
-                        }
-                     }
-                    );
+                        );
+                    }
                 });
             }
     });

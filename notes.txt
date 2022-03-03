@@ -3,3 +3,7 @@
 //npm install dotenv --save
 //npm install ckey
 //npm install password-hash
+
+//Traduzir as coisas para pt-br
+//art
+//moodboard????
